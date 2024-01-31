@@ -1,18 +1,20 @@
 import socket
 from product import Product
 import pickle
+import time
 #pickle is used for serialization/deserialization of python objects
 #In serialization a python object is converted into a byte stream, vice versa for deserialization
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as conn:
     conn.bind((socket.gethostname(),4571))
-    my_dictionary = {'a':1,'b':2}
-    pickled_dictionary = pickle.dumps(my_dictionary)
 
-    custom_object = Product('P024','Torch',100)
-    pickled_object = pickle.dumps(custom_object)
-    print('serialized dictionary type : ',type(pickled_dictionary))
-    print('Serialized object type : ',type(pickled_object))
+    custom_objects = [Product('P024','Torch',100),
+                      Product('P025','Keys',50),
+                      Product('P026','RAM',500),
+                      Product('P027','Mouse',150),
+                      Product('P028','USB Cable',100)
+                      ]
+
     conn.listen(2)
     print('Server is up and running. Listening for incoming connections...')
 
@@ -20,6 +22,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as conn:
     print('Connection to ',address,' established\n')
     print('Client object : ',client,'\n')
 
-    client.send(pickled_dictionary)
-    client.send(pickled_object)
+    for product in custom_objects:
+        pickled_product = pickle.dumps(product)
+        client.send(pickled_product)
+        print('Sent product : ',product.pid)
+        time.sleep(2)
     #when we invoke the send function of a client we have send a byte object only
