@@ -4,3 +4,4 @@ class Product:
         self.pid = pid
         self.pname = pname
         self.pprice = pprice
+        
