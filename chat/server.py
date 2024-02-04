@@ -1,6 +1,6 @@
 import socket
 
-with socket.socket((socket.AF_INET,socket.SOCK_STREAM)) as conn:
+with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as conn:
 
     server_name = input('Enter your name : ')
     conn.bind((socket.gethostname(),4571))
@@ -19,7 +19,7 @@ with socket.socket((socket.AF_INET,socket.SOCK_STREAM)) as conn:
 
     while True:
         send_msg = input(server_name + ' - ')
-        client.send(send.message.encode())
+        client.send(send_msg.encode())
         if(send_msg.lower() == 'bye'):
             break
 
